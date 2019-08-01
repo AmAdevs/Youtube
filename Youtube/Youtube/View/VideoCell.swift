@@ -30,25 +30,19 @@ class VideoCell: BaseCell {
             titleLabel.text = video?.title
             
             setupThumbnailImage()
-            
-            if let profileImageName = video?.channel?.profileName {
-                userProfileImage.image = UIImage(named: profileImageName)
-                
-                
-                
-                if let channelName = video?.channel?.name, let numberOfviews = video?.numberOfViews {
+            setupProfileImage()
+            if let channelName = video?.channel?.name, let numberOfviews = video?.numberOfViews {
                    
                     
-                    let numberFormatter = NumberFormatter()
-                    numberFormatter.numberStyle = .decimal
+                let numberFormatter = NumberFormatter()
+                numberFormatter.numberStyle = .decimal
                     
-                    let subText = "\(channelName) ∙ \(numberFormatter.string(from: numberOfviews) ?? "") ∙ 1 years ago"
-                    subTitleTextView.text = subText
+                let subText = "\(channelName) ∙ \(numberFormatter.string(from: numberOfviews) ?? "") ∙ 1 years ago"
+                subTitleTextView.text = subText
 
-                }
-                
-               
             }
+                
+        
             
             // measure title text
             if let title = video?.title {
@@ -67,23 +61,15 @@ class VideoCell: BaseCell {
         }
     }
     
+    func setupProfileImage() {
+        if let profileImageUrl = video?.channel?.profileName {
+            userProfileImage.loadImageUsingUrlString(urlString: profileImageUrl)
+        }
+    }
+    
     func setupThumbnailImage() {
-        if let thumnailImageUrl = video?.thumbnailImage  {
-            let url = URL(string: thumnailImageUrl)
-            URLSession.shared.dataTask(with: url!) { (data, respones, error) in
-                
-                if let error = error {
-                    print(error)
-                    return
-                }
-                
-                DispatchQueue.main.async {
-                    self.thumbnilImageView.image = UIImage(data: data!)
-                }
-               
-                
-                
-            }.resume()
+        if let thumbnailImageUrl = video?.thumbnailImage  {
+            thumbnilImageView.loadImageUsingUrlString(urlString: thumbnailImageUrl)
         }
     }
     
