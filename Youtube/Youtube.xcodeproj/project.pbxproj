@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6B974ACC22F28AE50032E4D4 /* MenuBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B974ACB22F28AE50032E4D4 /* MenuBar.swift */; };
 		6BA2C96822F1826D009A8FF1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA2C96722F1826D009A8FF1 /* AppDelegate.swift */; };
 		6BA2C96A22F1826D009A8FF1 /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA2C96922F1826D009A8FF1 /* HomeController.swift */; };
 		6BA2C96F22F1826E009A8FF1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6BA2C96E22F1826E009A8FF1 /* Assets.xcassets */; };
@@ -16,6 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6B974ACB22F28AE50032E4D4 /* MenuBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBar.swift; sourceTree = "<group>"; };
 		6BA2C96422F1826D009A8FF1 /* Youtube.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Youtube.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6BA2C96722F1826D009A8FF1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6BA2C96922F1826D009A8FF1 /* HomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
@@ -79,6 +81,7 @@
 			isa = PBXGroup;
 			children = (
 				6BADFE4E22F1F653006741CA /* VideoCell.swift */,
+				6B974ACB22F28AE50032E4D4 /* MenuBar.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -165,6 +168,7 @@
 				6BADFE4F22F1F653006741CA /* VideoCell.swift in Sources */,
 				6BA2C96A22F1826D009A8FF1 /* HomeController.swift in Sources */,
 				6BA2C96822F1826D009A8FF1 /* AppDelegate.swift in Sources */,
+				6B974ACC22F28AE50032E4D4 /* MenuBar.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
