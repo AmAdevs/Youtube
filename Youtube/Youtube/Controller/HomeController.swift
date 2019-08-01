@@ -11,15 +11,26 @@ import UIKit
 class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
 
     var videos: [Video] = {
+        
+        var thisChannel = Channel()
+        thisChannel.profileName = "gmm"
+        thisChannel.name = "gmm"
+        
         var dimond = Video()
         
         dimond.title = "DIAMOND MQT - GUCCI BELT ft. YOUNGOHM ,FIIXD ,YOUNGGU (Prod. by SIXKY!)[Official MV]"
         dimond.thumnailImage = "gucci-belt"
+        dimond.channel = thisChannel
+        dimond.numberOfViews = 41111289
+        
+
         
         var gmm100x100 = Video()
         
         gmm100x100.title = "[100x100] อ้ายพามา เขาพาไป (Collab Version) - OG-ANIC x ลำเพลิน วงศกร [Official MV]"
         gmm100x100.thumnailImage = "100x100"
+        gmm100x100.channel = thisChannel
+        gmm100x100.numberOfViews = 123032492
         
         return [dimond, gmm100x100]
     }()
