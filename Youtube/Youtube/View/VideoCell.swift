@@ -29,6 +29,18 @@ class VideoCell: BaseCell {
         didSet {
             titleLabel.text = video?.title
             thumbnilImageView.image = UIImage(named: video?.thumnailImage ?? "")
+            
+            if let profileImageName = video?.channel?.profileName {
+                userProfileImage.image = UIImage(named: profileImageName)
+                
+                if let channelName = video?.channel?.name, let numberOfviews = video?.numberOfViews {
+                    let subText = "\(channelName) ∙ \(numberOfviews) ∙ 1 years ago"
+                    subTitleTextView.text = subText
+                }
+                
+               
+            }
+          
         }
     }
     
