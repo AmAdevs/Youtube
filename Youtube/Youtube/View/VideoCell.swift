@@ -25,6 +25,14 @@ class BaseCell: UICollectionViewCell {
 
 class VideoCell: BaseCell {
 
+    var video: Video? {
+        didSet {
+            titleLabel.text = video?.title
+            thumbnilImageView.image = UIImage(named: video?.thumnailImage ?? "")
+        }
+    }
+    
+    
     let thumbnilImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "gucci-belt")
