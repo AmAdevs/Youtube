@@ -10,7 +10,7 @@ import UIKit
 
 class Video: NSObject {
     
-    var thumnailImage: String?
+    var thumbnailImage: String?
     var title: String?
     var numberOfViews: NSNumber?
     var uploadDate: NSDate?
