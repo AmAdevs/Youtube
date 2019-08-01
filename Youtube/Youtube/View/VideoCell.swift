@@ -48,6 +48,20 @@ class VideoCell: BaseCell {
                 
                
             }
+            
+            // measure title text
+            if let title = video?.title {
+                let size = CGSize(width: frame.width - 16 - 44 - 8 - 16, height: 1000)
+                let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
+                let estimatedRect = NSString(string: title).boundingRect(with: size, options: options, attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 14)], context: nil)
+                
+                if estimatedRect.size.height > 20 {
+                    titleLabelHeightConstraint?.constant = 44
+                } else {
+                    titleLabelHeightConstraint?.constant = 20
+                }
+                
+            }
           
         }
     }
@@ -74,6 +88,7 @@ class VideoCell: BaseCell {
         let titleLabel = UILabel()
         titleLabel.text = "DIAMOND MQT - GUCCI BELT ft. YOUNGOHM ,FIIXD ,YOUNGGU (Prod. by SIXKY!)[Official MV]"
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        titleLabel.numberOfLines = 2
         return titleLabel
     }()
     
@@ -92,6 +107,7 @@ class VideoCell: BaseCell {
         return separator
     }()
     
+    var titleLabelHeightConstraint: NSLayoutConstraint?
     
     override func setUpViews() {
         addSubview(thumbnilImageView)
@@ -104,7 +120,7 @@ class VideoCell: BaseCell {
         addConstraintWithFormat(format: "H:|-16-[v0(44)]", views: userProfileImage)
         
         // Vertical constraint
-        addConstraintWithFormat(format: "V:|-16-[v0]-8-[v1(44)]-16-[v2(1)]-|", views: thumbnilImageView, userProfileImage ,separatorView )
+        addConstraintWithFormat(format: "V:|-16-[v0]-8-[v1(44)]-28-[v2(1)]-|", views: thumbnilImageView, userProfileImage ,separatorView )
         addConstraintWithFormat(format:  "H:|[v0]|", views: separatorView)
         
         //top constraint
@@ -120,7 +136,8 @@ class VideoCell: BaseCell {
         addConstraint(NSLayoutConstraint(item: subTitleTextView, attribute: .right, relatedBy: .equal, toItem: titleLabel, attribute: .right, multiplier: 1, constant: 0))
         
         //height constraint
-        addConstraint(NSLayoutConstraint(item: titleLabel, attribute: .height, relatedBy: .equal, toItem: self, attribute: .height, multiplier: 0, constant: 20))
+        titleLabelHeightConstraint = NSLayoutConstraint(item: titleLabel, attribute: .height, relatedBy: .equal, toItem: self, attribute: .height, multiplier: 0, constant: 44)
+        addConstraint(titleLabelHeightConstraint!)
         addConstraint(NSLayoutConstraint(item: subTitleTextView, attribute: .height, relatedBy: .equal, toItem: self, attribute: .height, multiplier: 0, constant: 20))
         
         //        addConstraintWithFormat(format: "V:[v0(20)]", views: titleLabel)
