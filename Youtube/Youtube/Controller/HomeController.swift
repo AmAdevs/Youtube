@@ -10,33 +10,75 @@ import UIKit
 
 class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
 
-    var videos: [Video] = {
+//    var videos: [Video] = {
+//
+//        var thisChannel = Channel()
+//        thisChannel.profileName = "gmm"
+//        thisChannel.name = "gmm"
+//
+//        var dimond = Video()
+//
+//        dimond.title = "DIAMOND MQT - GUCCI BELT ft. YOUNGOHM ,FIIXD ,YOUNGGU (Prod. by SIXKY!)[Official MV]"
+//        dimond.thumnailImage = "gucci-belt"
+//        dimond.channel = thisChannel
+//        dimond.numberOfViews = 41111289
+//
+//
+//
+//        var gmm100x100 = Video()
+//
+//        gmm100x100.title = "[100x100] อ้ายพามา เขาพาไป (Collab Version) - OG-ANIC x ลำเพลิน วงศกร [Official MV]"
+//        gmm100x100.thumnailImage = "100x100"
+//        gmm100x100.channel = thisChannel
+//        gmm100x100.numberOfViews = 123032492
+//
+//        return [dimond, gmm100x100]
+//    }()
+    
+    var videos: [Video]?
+    
+    func fetchVideo() {
+        guard let url = URL(string: "https://s3-us-west-2.amazonaws.com/youtubeassets/home.json") else { return }
+        URLSession.shared.dataTask(with: url) { (data, response, error) in
+            
+            if error != nil {
+                print(error ?? "")
+                return
+            }
+            
+    
+            do {
+                
+                let json = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
+                self.videos = [Video]()
+                
+                for dictionary in json as! [[String: AnyObject]] {
+                    let video = Video()
+                    video.title = dictionary["title"] as? String
+                    video.thumbnailImage = dictionary["thumbnail_image_name"] as? String
+                    self.videos?.append(video)
         
-        var thisChannel = Channel()
-        thisChannel.profileName = "gmm"
-        thisChannel.name = "gmm"
-        
-        var dimond = Video()
-        
-        dimond.title = "DIAMOND MQT - GUCCI BELT ft. YOUNGOHM ,FIIXD ,YOUNGGU (Prod. by SIXKY!)[Official MV]"
-        dimond.thumnailImage = "gucci-belt"
-        dimond.channel = thisChannel
-        dimond.numberOfViews = 41111289
-        
-
-        
-        var gmm100x100 = Video()
-        
-        gmm100x100.title = "[100x100] อ้ายพามา เขาพาไป (Collab Version) - OG-ANIC x ลำเพลิน วงศกร [Official MV]"
-        gmm100x100.thumnailImage = "100x100"
-        gmm100x100.channel = thisChannel
-        gmm100x100.numberOfViews = 123032492
-        
-        return [dimond, gmm100x100]
-    }()
+                }
+                
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
+              
+                
+            } catch {
+                print(error)
+            }
+            
+            
+            
+            
+        }.resume()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        fetchVideo()
         
         navigationItem.title = "Home"
         
@@ -87,13 +129,13 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
     }
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return videos.count
+        return videos?.count ?? 0
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CellId", for: indexPath) as! VideoCell
         
-        cell.video = videos[indexPath.item]
+        cell.video = videos?[indexPath.item]
         
         return cell
     }
