@@ -74,16 +74,16 @@ class VideoCell: BaseCell {
     }
     
     
-    let thumbnilImageView: UIImageView = {
-        let imageView = UIImageView()
+    let thumbnilImageView: CustomImageView = {
+        let imageView = CustomImageView()
         imageView.image = UIImage(named: "gucci-belt")
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         return imageView
     }()
     
-    let userProfileImage: UIImageView = {
-        let userImageView = UIImageView()
+    let userProfileImage: CustomImageView = {
+        let userImageView = CustomImageView()
         userImageView.image = UIImage(named: "diamond")
         userImageView.contentMode = .scaleAspectFill
         userImageView.layer.masksToBounds = true
