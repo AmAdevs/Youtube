@@ -54,7 +54,7 @@ class SettingLauncher: NSObject, UICollectionViewDataSource, UICollectionViewDel
             
             blackView.backgroundColor = UIColor(white: 0, alpha: 0.5)
             
-            blackView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleDismiss)))
+            blackView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleCancel)))
             
             window.addSubview(blackView)
             window.addSubview(collectionView)
@@ -78,14 +78,23 @@ class SettingLauncher: NSObject, UICollectionViewDataSource, UICollectionViewDel
         
     }
     
+    @objc func handleCancel() {
+        handleDismiss(setting: settings.first { $0.name == "Cancel" }!)
+    }
     
-    @objc func handleDismiss() {
-        UIView.animate(withDuration: 0.5) {
+    
+    @objc func handleDismiss(setting: Setting) {
+        UIView.animate(withDuration: 0.5, animations: {
             self.blackView.alpha = 0
             
             if let window = UIApplication.shared.keyWindow {
                 self.collectionView.frame = CGRect(x: 0, y: window.frame.height, width: self.collectionView.frame.width, height: self.collectionView.frame.height)
             }
+        }) { (completed: Bool) in
+            if  setting.name != "" && setting.name != "Cancel" {
+                self.homeController?.showControllerForSettings(setting: setting)
+            }
+            
         }
     }
     
@@ -112,15 +121,8 @@ class SettingLauncher: NSObject, UICollectionViewDataSource, UICollectionViewDel
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        UIView.animate(withDuration: 0.5, animations: {
-            self.blackView.alpha = 0
-            
-            if let window = UIApplication.shared.keyWindow {
-                self.collectionView.frame = CGRect(x: 0, y: window.frame.height, width: self.collectionView.frame.width, height: self.collectionView.frame.height)
-            }
-        }) { (completed: Bool) in
-            self.homeController?.showControllerForSettings()
-        }
+        let setting = self.settings[indexPath.item]
+        handleDismiss(setting: setting)
 
     }
     
