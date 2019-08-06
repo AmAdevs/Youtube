@@ -10,6 +10,18 @@ import UIKit
 
 class SettingsCell: BaseCell {
     
+    var setting: Setting? {
+        didSet {
+            nameLabel.text = setting?.name
+            
+            if let imageView = setting?.imageName {
+                iconImageView.image = UIImage(named: imageView)
+            }
+            
+        }
+    }
+    
+    
     let nameLabel: UILabel = {
         let nameLabel = UILabel()
         nameLabel.text = "Setting"
