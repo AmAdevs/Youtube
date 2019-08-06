@@ -31,9 +31,15 @@ class SettingLauncher: NSObject, UICollectionViewDataSource, UICollectionViewDel
     }()
     
     let cellId = "cellId"
+    let cellHeight: CGFloat = 50
     
     let settings: [Setting] = {
-        return [Setting(name: "Settings", imageName: "Settings")]
+        return [Setting(name: "Settings", imageName: "settings"),
+                Setting(name: "Term & privacy policy", imageName: "privacy"),
+                Setting(name: "Send Feedback", imageName: "feedback"),
+                Setting(name: "Help", imageName: "help"),
+                Setting(name: "Switch Account", imageName: "switch_account"),
+                Setting(name: "Cancel", imageName: "cancel")]
     }()
     
     
@@ -51,7 +57,7 @@ class SettingLauncher: NSObject, UICollectionViewDataSource, UICollectionViewDel
             window.addSubview(blackView)
             window.addSubview(collectionView)
             
-            let height: CGFloat = 200
+            let height: CGFloat = CGFloat(settings.count) * cellHeight
             let y = window.frame.height - height
             collectionView.frame = CGRect(x: 0, y: window.frame.height, width: window.frame.width, height: height)
             
@@ -84,17 +90,18 @@ class SettingLauncher: NSObject, UICollectionViewDataSource, UICollectionViewDel
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 3
+        return settings.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! SettingsCell
+        cell.setting = settings[indexPath.item]
         
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.width, height: 50)
+        return CGSize(width: collectionView.frame.width, height: cellHeight)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
