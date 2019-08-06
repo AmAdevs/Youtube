@@ -33,6 +33,8 @@ class SettingLauncher: NSObject, UICollectionViewDataSource, UICollectionViewDel
     let cellId = "cellId"
     let cellHeight: CGFloat = 50
     
+    var homeController: HomeController?
+    
     let settings: [Setting] = {
         return [Setting(name: "Settings", imageName: "settings"),
                 Setting(name: "Term & privacy policy", imageName: "privacy"),
@@ -106,6 +108,20 @@ class SettingLauncher: NSObject, UICollectionViewDataSource, UICollectionViewDel
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        UIView.animate(withDuration: 0.5, animations: {
+            self.blackView.alpha = 0
+            
+            if let window = UIApplication.shared.keyWindow {
+                self.collectionView.frame = CGRect(x: 0, y: window.frame.height, width: self.collectionView.frame.width, height: self.collectionView.frame.height)
+            }
+        }) { (completed: Bool) in
+            self.homeController?.showControllerForSettings()
+        }
+
     }
     
     
