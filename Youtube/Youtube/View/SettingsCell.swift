@@ -25,6 +25,7 @@ class SettingsCell: BaseCell {
     let nameLabel: UILabel = {
         let nameLabel = UILabel()
         nameLabel.text = "Setting"
+        nameLabel.font = UIFont.systemFont(ofSize: 13)
         return nameLabel
     }()
     
@@ -42,7 +43,7 @@ class SettingsCell: BaseCell {
         addSubview(nameLabel)
         addSubview(iconImageView)
         
-        addConstraintWithFormat(format: "H:|-8-[v0(30)]-0-[v1]|", views: iconImageView, nameLabel)
+        addConstraintWithFormat(format: "H:|-8-[v0(30)]-10-[v1]|", views: iconImageView, nameLabel)
         addConstraintWithFormat(format: "V:|[v0]|", views: nameLabel)
         
         addConstraintWithFormat(format: "V:[v0(30)]", views: iconImageView)
