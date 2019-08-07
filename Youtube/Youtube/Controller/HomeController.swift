@@ -10,78 +10,13 @@ import UIKit
 
 class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
 
-//    var videos: [Video] = {
-//
-//        var thisChannel = Channel()
-//        thisChannel.profileName = "gmm"
-//        thisChannel.name = "gmm"
-//
-//        var dimond = Video()
-//
-//        dimond.title = "DIAMOND MQT - GUCCI BELT ft. YOUNGOHM ,FIIXD ,YOUNGGU (Prod. by SIXKY!)[Official MV]"
-//        dimond.thumnailImage = "gucci-belt"
-//        dimond.channel = thisChannel
-//        dimond.numberOfViews = 41111289
-//
-//
-//
-//        var gmm100x100 = Video()
-//
-//        gmm100x100.title = "[100x100] อ้ายพามา เขาพาไป (Collab Version) - OG-ANIC x ลำเพลิน วงศกร [Official MV]"
-//        gmm100x100.thumnailImage = "100x100"
-//        gmm100x100.channel = thisChannel
-//        gmm100x100.numberOfViews = 123032492
-//
-//        return [dimond, gmm100x100]
-//    }()
-    
     var videos: [Video]?
     
     func fetchVideo() {
-        guard let url = URL(string: "https://s3-us-west-2.amazonaws.com/youtubeassets/home.json") else { return }
-        URLSession.shared.dataTask(with: url) { (data, response, error) in
-            
-            if error != nil {
-                print(error ?? "")
-                return
-            }
-            
-    
-            do {
-                
-                let json = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
-                self.videos = [Video]()
-                
-                for dictionary in json as! [[String: AnyObject]] {
-                    let video = Video()
-                    video.title = dictionary["title"] as? String
-                    video.thumbnailImage = dictionary["thumbnail_image_name"] as? String
-                    
-                    let channelDictionary = dictionary["channel"] as! [String: AnyObject]
-                    
-                    let chennel = Channel()
-                    chennel.name = channelDictionary["name"] as? String
-                    chennel.profileName = channelDictionary["profile_image_name"] as? String
-                    
-                    video.channel = chennel
-                    
-                    self.videos?.append(video)
-        
-                }
-                
-                DispatchQueue.main.async {
-                    self.collectionView.reloadData()
-                }
-              
-                
-            } catch {
-                print(error)
-            }
-            
-            
-            
-            
-        }.resume()
+        ApiService.shareInstance.fetchVideo { (videos: [Video]) in
+            self.videos = videos
+            self.collectionView.reloadData()
+        }
     }
     
     override func viewDidLoad() {
