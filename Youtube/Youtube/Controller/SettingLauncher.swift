@@ -10,13 +10,23 @@ import UIKit
 
 class Setting: NSObject {
     
-    let name: String
+    let name: settingName
     let imageName: String
     
-    init(name: String, imageName: String) {
+    init(name: settingName, imageName: String) {
         self.name = name
         self.imageName = imageName
     }
+    
+}
+
+enum settingName: String {
+    case Cancel = "Cancel"
+    case Setting = "Settings"
+    case TermPrivacy = "Term & privacy policy"
+    case Feedback = "Send Feedback"
+    case Help = "help"
+    case SwitchAccount = "Switch Account"
     
 }
 
@@ -36,12 +46,16 @@ class SettingLauncher: NSObject, UICollectionViewDataSource, UICollectionViewDel
     var homeController: HomeController?
     
     let settings: [Setting] = {
-        return [Setting(name: "Settings", imageName: "settings"),
-                Setting(name: "Term & privacy policy", imageName: "privacy"),
-                Setting(name: "Send Feedback", imageName: "feedback"),
-                Setting(name: "Help", imageName: "help"),
-                Setting(name: "Switch Account", imageName: "switch_account"),
-                Setting(name: "Cancel", imageName: "cancel")]
+        
+        let settingsSetting = Setting(name: .Setting, imageName: "settings")
+        let cancelSetting = Setting(name: .Cancel, imageName: "cancel")
+        
+        return [settingsSetting,
+                Setting(name: .TermPrivacy, imageName: "privacy"),
+                Setting(name: .Feedback, imageName: "feedback"),
+                Setting(name: .Help, imageName: "help"),
+                Setting(name: .SwitchAccount, imageName: "switch_account"),
+                cancelSetting]
     }()
     
     
@@ -54,7 +68,7 @@ class SettingLauncher: NSObject, UICollectionViewDataSource, UICollectionViewDel
             
             blackView.backgroundColor = UIColor(white: 0, alpha: 0.5)
             
-            blackView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleCancel)))
+            blackView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleDismiss)))
             
             window.addSubview(blackView)
             window.addSubview(collectionView)
@@ -78,10 +92,6 @@ class SettingLauncher: NSObject, UICollectionViewDataSource, UICollectionViewDel
         
     }
     
-    @objc func handleCancel() {
-        handleDismiss(setting: settings.first { $0.name == "Cancel" }!)
-    }
-    
     
     @objc func handleDismiss(setting: Setting) {
         UIView.animate(withDuration: 0.5, animations: {
@@ -91,7 +101,7 @@ class SettingLauncher: NSObject, UICollectionViewDataSource, UICollectionViewDel
                 self.collectionView.frame = CGRect(x: 0, y: window.frame.height, width: self.collectionView.frame.width, height: self.collectionView.frame.height)
             }
         }) { (completed: Bool) in
-            if  setting.name != "" && setting.name != "Cancel" {
+            if  setting.name != .Cancel {
                 self.homeController?.showControllerForSettings(setting: setting)
             }
             
